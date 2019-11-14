@@ -1,0 +1,18 @@
+﻿static List<Container> FF(List<Item> items, uint V)
+        {
+            var containers = new List<Container>(); 		// 1
+            foreach(var item in items)				// 2n + 2
+            {
+                bool isInserted = false; 			// 1
+                foreach (var cont in containers)		// 2 * i + 2
+                    if (cont.CurrentLoad + item.M <= V) 	// 2
+                    {
+                        cont.AddItem(item); 			// 3
+                        isInserted = true; 			// 1
+                        break; 					// 1
+                    }
+                if (!isInserted) 				// 1
+                    containers.Add(new Container(V, item));	// 1 + 3 = 4
+            }
+            return containers; 					// 1
+        }

@@ -1,0 +1,28 @@
+﻿public static List<Container> BF(List<Item> items, uint V)
+        {
+            var bins = new List<Container>(); 			// 1
+
+            foreach (var item in items) 			// 2n + 2
+            {
+                int bestIdx = -1;				// 1
+                double maxLoad = -1;				// 1
+
+                // ищем такой контейнер, чтобы загрузка не превышала объем и была максимальной
+                for (int i = 0; i < bins.Count; ++i) 		// 2i + 2
+                {
+                    var load = bins[i].CurrentLoad + item.M;	// 2
+                    if (load <= V && load > maxLoad) 		// 3
+                    {
+                        bestIdx = i; 				// 1
+                        maxLoad = load; 			// 1
+                    }
+                }
+
+                if (bestIdx == -1) 				// 1
+                    bins.Add(new Container(V, item)); 		// 5
+                else
+                    bins[bestIdx].AddItem(item); 		// 3
+            }
+
+            return bins; 					// 1
+        }

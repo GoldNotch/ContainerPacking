@@ -1,0 +1,29 @@
+﻿static void FullSearch_rec(uint V, ref List<Container> result, List<Item> free_items,  List<Item> taken_items)
+        {              
+            if (free_items.Count == 0)	//1
+            {
+                var list = FF(taken_items, V);	// 7/8 * n^2 + 37/ * n + 4
+                if (result == null || list.Count < result.Count) //3
+			result = list; //1
+            }
+            else
+                for(int i = 0; i < free_items.Count; ++i) //2 * n + 2
+                {
+                    var item = free_items[i]; // 1
+                    //удаляем из свободных предметов и вставляем во взятые
+                    free_items.RemoveAt(i); // 1
+                    taken_items.Add(item); // 1
+                    FullSearch_rec(V, ref result, free_items, taken_items); // T(n - 1)
+                    //удаляем из взятых и вставляем в свободные
+                    taken_items.Remove(item); // 1
+                    free_items.Insert(i, item); // 1
+                }
+        }
+
+ public static List<Container> FullSearch(List<Item> items, uint V)
+        {
+            List<Container> list = null;	// 1
+	    var taken_items = new List<Item>();// 1
+            FullSearch_rec(V, ref list, items, taken_items); // T(n)
+            return list; // 1
+        }
